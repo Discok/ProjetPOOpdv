@@ -17,3 +17,4 @@ public class Conexao {
             throw new RuntimeException("Erro ao conectar: " + e.getMessage());
         }
     }
+}

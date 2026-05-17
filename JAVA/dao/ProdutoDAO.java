@@ -22,7 +22,7 @@ public class ProdutoDAO {
     public List<Produto> listarTodos() {
         List<Produto> lista = new ArrayList<>();
         try (Connection c = Conexao.obter()
-             PreparedStatement ps = c.prepareStatement("SELECT * FROM produto");
+             PreparedStatement ps = c.prepareStatement("SELECT * FROM Produto");
              ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 Produto p = new Produto();
