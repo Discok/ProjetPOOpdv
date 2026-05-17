@@ -1,5 +1,6 @@
-public class Produto {
+package projetopoopdv.java.models;
 
+public class Produto {
     private int    id;
     private String nome;
     private String codigo;
