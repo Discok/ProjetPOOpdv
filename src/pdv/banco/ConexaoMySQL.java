@@ -6,9 +6,9 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 public class ConexaoMySQL implements Conexao {
-    private static final String URL = "127.0.0.1:3306/";
+    private static final String URL = "";
     private static final String USUARIO = "root";
-    private static final String SENHA = "123456"; 
+    private static final String SENHA = ""; 
     
     private Connection conexao;
     
