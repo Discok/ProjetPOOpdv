@@ -1,13 +1,13 @@
 package pdv.tela;
 
-import pdv.modelo.*;
-import pdv.servico.*;
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
 import java.util.Optional;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import pdv.modelo.*;
+import pdv.servico.*;
 
 public class TelaPDV extends JFrame {
     private final ProdutoServico produtoServico;
@@ -82,6 +82,7 @@ public class TelaPDV extends JFrame {
     
     private void configurarEventos() {
         campoCodigo.addKeyListener(new KeyAdapter() {
+            @SuppressWarnings("override")
             public void keyPressed(KeyEvent e) {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     adicionarProduto();
