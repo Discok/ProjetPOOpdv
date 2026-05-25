@@ -12,28 +12,32 @@ import pdv.tela.TelaPDV;
 
 public class Main {
     public static void main(String[] args) {
-        // Conectar ao banco
-        var conexao = new ConexaoMySQL();
-        ConexaoMySQL conexao1 = conexao;
-        
-        // Repositórios
-        var produtoDados = new ProdutoDados((Conexao) conexao1);
-        var vendaDados = new VendaDados((Conexao) conexao1);
-        
-        // Serviços
-        var produtoServico = new ProdutoServico(produtoDados);
-        var estoqueServico = new EstoqueServico(produtoDados);
-        var vendaServico = new VendaServico(vendaDados, estoqueServico);
-        
-        // Abrir tela
-        SwingUtilities.invokeLater(() -> {
-            new TelaPDV(produtoServico, vendaServico).setVisible(true);
-        });
-        
-        // Fechar conexão ao sair
-        Runtime.getRuntime().addShutdownHook(new Thread(() -> {
-            conexao1.desconectar();
-        }));
+        try {
+            // Usando a interface Conexao
+            Conexao conexao = new ConexaoMySQL();
+            
+            // Repositórios
+            ProdutoDados produtoDados = new ProdutoDados(conexao);
+            VendaDados vendaDados = new VendaDados(conexao);
+            
+            // Serviços
+            ProdutoServico produtoServico = new ProdutoServico(produtoDados);
+            EstoqueServico estoqueServico = new EstoqueServico(produtoDados);
+            VendaServico vendaServico = new VendaServico(vendaDados, estoqueServico);
+            
+            // Abrir tela
+            SwingUtilities.invokeLater(() -> {
+                new TelaPDV(produtoServico, vendaServico).setVisible(true);
+            });
+            
+            // Fechar conexão ao sair
+            Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+                conexao.desconectar();
+            }));
+            
+        } catch (Exception e) {
+            System.err.println("Erro ao iniciar: " + e.getMessage());
+            e.printStackTrace();
+        }
     }
 }
-
