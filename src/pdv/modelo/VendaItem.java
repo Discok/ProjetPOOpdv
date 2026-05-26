@@ -18,8 +18,5 @@ public class VendaItem {
     public double getPreco() { return preco; }
     public int getQuantidade() { return quantidade; }
     public double getSubtotal() { return preco * quantidade; }
-    
-    public void setQuantidade(int quantidade) {
-        if (quantidade > 0) this.quantidade = quantidade;
-    }
+    public void setQuantidade(int quantidade) { if (quantidade > 0) this.quantidade = quantidade; }
 }

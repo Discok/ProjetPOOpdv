@@ -3,43 +3,37 @@ package pdv.banco;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.sql.Statement;
 
 public class ConexaoMySQL implements Conexao {
-    private static final String URL = "jdbc:mysql://localhost:3306/";
+    private static final String HOST = "localhost";
+    private static final String PORTA = "3306";
+    private static final String BANCO = "pdviewbanco";  // ← Nome do seu banco
     private static final String USUARIO = "root";
-    private static final String SENHA = "123456"; // ← Coloque sua senha do MySQL aqui!
+    private static final String SENHA = "123456";  // ← Tente vazio, root, ou 123456
     
     private Connection conexao;
     
     @Override
     public Connection conectar() throws SQLException {
         try {
-            // Registrar o driver (opcional mas recomendado)
             Class.forName("com.mysql.cj.jdbc.Driver");
+            System.out.println("✅ Driver carregado!");
             
-            if (conexao == null || conexao.isClosed()) {
-                // Primeiro conecta sem banco específico
-                conexao = DriverManager.getConnection(URL, USUARIO, SENHA);
-                criarBancoSeNaoExistir();
-                // Depois reconecta no banco específico
-                conexao = DriverManager.getConnection(URL + "pdv_simples", USUARIO, SENHA);
-                System.out.println("✅ Conectado ao MySQL com sucesso!");
-            }
+            String url = String.format("jdbc:mysql://%s:%s/%s?useSSL=false&allowPublicKeyRetrieval=true&serverTimezone=UTC", 
+                HOST, PORTA, BANCO);
+            
+            System.out.println("Conectando a: " + url);
+            conexao = DriverManager.getConnection(url, USUARIO, SENHA);
+            System.out.println("✅ Conectado com sucesso!");
+            
         } catch (ClassNotFoundException e) {
-            System.err.println("❌ Driver MySQL não encontrado!");
             throw new SQLException("Driver não encontrado", e);
+        } catch (SQLException e) {
+            System.err.println("❌ Erro: " + e.getMessage());
+            throw e;
         }
         
         return conexao;
-    }  
-    
-    private void criarBancoSeNaoExistir() throws SQLException {
-        String sql = "CREATE DATABASE IF NOT EXISTS pdv_simples";
-        try (Statement stmt = conexao.createStatement()) {
-            stmt.executeUpdate(sql);
-            System.out.println("✅ Banco de dados verificado/criado!");
-        }
     }
     
     @Override
@@ -47,7 +41,6 @@ public class ConexaoMySQL implements Conexao {
         if (conexao != null) {
             try {
                 conexao.close();
-                System.out.println("✅ Conexão fechada.");
             } catch (SQLException e) {
                 e.printStackTrace();
             }

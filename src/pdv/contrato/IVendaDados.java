@@ -1,8 +1,8 @@
 package pdv.contrato;
 
+import java.util.List;
 import pdv.modelo.Venda;
 import pdv.modelo.VendaItem;
-import java.util.List;
 
 public interface IVendaDados {
     int salvarVenda(Venda venda);
