@@ -1,0 +1,514 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>PDView</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            color: #e0e0e0;
+            padding: 20px;
+            line-height: 1.6;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        /* Header */
+        .header {
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(0, 0, 0, 0.3);
+            border-radius: 20px;
+            margin-bottom: 30px;
+            border-bottom: 3px solid #00ff88;
+        }
+
+        .header h1 {
+            font-size: 2.5rem;
+            color: #00ff88;
+            margin-bottom: 10px;
+        }
+
+        .header p {
+            color: #aaa;
+            font-size: 1.1rem;
+        }
+
+        /* Cards */
+        .card {
+            background: rgba(30, 30, 50, 0.8);
+            border-radius: 15px;
+            padding: 25px;
+            margin-bottom: 25px;
+            border: 1px solid rgba(0, 255, 136, 0.2);
+            backdrop-filter: blur(5px);
+        }
+
+        .card h2 {
+            color: #00ff88;
+            border-left: 4px solid #00ff88;
+            padding-left: 15px;
+            margin-bottom: 20px;
+        }
+
+        .card h3 {
+            color: #ffaa00;
+            margin: 15px 0 10px 0;
+        }
+
+        /* Grid de pastas */
+        .folder-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+            margin-top: 20px;
+        }
+
+        .folder-card {
+            background: rgba(0, 0, 0, 0.4);
+            border-radius: 12px;
+            padding: 20px;
+            border-left: 4px solid #00ff88;
+        }
+
+        .folder-card h3 {
+            color: #00ff88;
+            margin-top: 0;
+            font-size: 1.2rem;
+        }
+
+        .folder-card p {
+            color: #bbb;
+            font-size: 0.9rem;
+        }
+
+        /* Tabelas */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 15px 0;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #333;
+        }
+
+        th {
+            background: rgba(0, 255, 136, 0.1);
+            color: #00ff88;
+            font-weight: 600;
+        }
+
+        td {
+            color: #ccc;
+        }
+
+        /* Código */
+        .code-block {
+            background: #0d0d1a;
+            border-radius: 10px;
+            padding: 15px;
+            font-family: 'Consolas', 'Monaco', monospace;
+            font-size: 0.85rem;
+            overflow-x: auto;
+            margin: 15px 0;
+            border: 1px solid #333;
+        }
+
+        .code-block pre {
+            margin: 0;
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        .code-green {
+            color: #00ff88;
+        }
+
+        .code-yellow {
+            color: #ffaa00;
+        }
+
+        .code-blue {
+            color: #66ccff;
+        }
+
+        .code-white {
+            color: #fff;
+        }
+
+        /* Badges */
+        .badge {
+            display: inline-block;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin: 0 5px 5px 0;
+        }
+
+        .badge-solid {
+            background: #00ff88;
+            color: #1a1a2e;
+        }
+
+        .badge-pattern {
+            background: #ffaa00;
+            color: #1a1a2e;
+        }
+
+        /* Layout de camadas */
+        .layers {
+            display: flex;
+            flex-direction: column;
+            gap: 5px;
+            margin: 20px 0;
+        }
+
+        .layer {
+            background: rgba(0, 0, 0, 0.5);
+            border-radius: 10px;
+            padding: 15px;
+            border-left: 4px solid;
+        }
+
+        .layer-presentation { border-left-color: #ff6b6b; }
+        .layer-service { border-left-color: #ffaa00; }
+        .layer-repository { border-left-color: #00ff88; }
+        .layer-connection { border-left-color: #66ccff; }
+
+        .layer-title {
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        /* Fluxo */
+        .flow {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            margin: 20px 0;
+        }
+
+        .flow-item {
+            background: #0d0d1a;
+            border-radius: 8px;
+            padding: 10px 15px;
+            font-size: 0.85rem;
+            text-align: center;
+        }
+
+        .flow-arrow {
+            color: #00ff88;
+            font-size: 1.2rem;
+        }
+
+        /* Footer */
+        .footer {
+            text-align: center;
+            padding: 30px;
+            border-top: 1px solid #333;
+            margin-top: 30px;
+            color: #666;
+        }
+
+        @media (max-width: 768px) {
+            .flow {
+                flex-direction: column;
+            }
+            .flow-arrow {
+                transform: rotate(90deg);
+            }
+            .header h1 {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!-- Header -->
+        <div class="header">
+            <h1>🏗️ PDView</h1>
+            <p>SOLID • Padrões de Projeto • Baixo Acoplamento • Alta Coesão</p>
+        </div>
+
+        <!-- Estrutura de Pastas -->
+        <div class="card">
+            <h2>📁 Estrutura de Pastas e Responsabilidades</h2>
+            <div class="folder-grid">
+                <div class="folder-card">
+                    <h3>📂 banco/</h3>
+                    <p><strong>Responsabilidade:</strong> Gerenciar conexão com MySQL</p>
+                    <p><strong>Motivo:</strong> Isolar a dependência externa do banco de dados</p>
+                    <p><span class="badge badge-solid">Conexão</span> <span class="badge badge-solid">Adapter</span></p>
+                </div>
+                <div class="folder-card">
+                    <h3>📂 contrato/</h3>
+                    <p><strong>Responsabilidade:</strong> Definir interfaces (contratos)</p>
+                    <p><strong>Motivo:</strong> Criar contratos para baixo acoplamento</p>
+                    <p><span class="badge badge-solid">Interface</span> <span class="badge badge-solid">Abstração</span></p>
+                </div>
+                <div class="folder-card">
+                    <h3>📂 dados/</h3>
+                    <p><strong>Responsabilidade:</strong> Executar SQL (Repositórios)</p>
+                    <p><strong>Motivo:</strong> Separar acesso a dados da lógica de negócio</p>
+                    <p><span class="badge badge-solid">Repository</span> <span class="badge badge-solid">DAO</span></p>
+                </div>
+                <div class="folder-card">
+                    <h3>📂 modelo/</h3>
+                    <p><strong>Responsabilidade:</strong> Representar dados (Entidades)</p>
+                    <p><strong>Motivo:</strong> Criar objetos que representam o mundo real</p>
+                    <p><span class="badge badge-solid">Entity</span> <span class="badge badge-solid">Model</span></p>
+                </div>
+                <div class="folder-card">
+                    <h3>📂 servico/</h3>
+                    <p><strong>Responsabilidade:</strong> Aplicar regras de negócio</p>
+                    <p><strong>Motivo:</strong> Centralizar a lógica da aplicação</p>
+                    <p><span class="badge badge-solid">Service</span> <span class="badge badge-solid">Business</span></p>
+                </div>
+                <div class="folder-card">
+                    <h3>📂 tela/</h3>
+                    <p><strong>Responsabilidade:</strong> Interface com o usuário</p>
+                    <p><strong>Motivo:</strong> Separar UI da lógica de negócio</p>
+                    <p><span class="badge badge-solid">View</span> <span class="badge badge-solid">GUI</span></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SOLID -->
+        <div class="card">
+            <h2>🎯 Princípios SOLID Aplicados</h2>
+            
+            <div class="code-block">
+                <pre><span class="code-green">// ✅ S - Single Responsibility (Responsabilidade Única)</span>
+<span class="code-white">public class </span><span class="code-yellow">ProdutoDados</span><span class="code-white"> {      // Só lida com acesso a dados
+    public Optional&lt;Produto&gt; buscarPorCodigo(String codigo) {...}
+    public boolean atualizarEstoque(int id, int qtd) {...}
+}
+
+public class </span><span class="code-yellow">ProdutoServico</span><span class="code-white"> {    // Só lida com regras de negócio
+    public Optional&lt;Produto&gt; buscarPorCodigo(String codigo) {...}
+    public boolean temEstoque(Produto p, int qtd) {...}
+}</span></pre>
+            </div>
+
+            <div class="code-block">
+                <pre><span class="code-green">// ✅ O - Open/Closed (Aberto/Fechado)</span>
+<span class="code-white">public interface </span><span class="code-yellow">IFormaPagamento</span><span class="code-white"> {
+    String getNome();
+    boolean processarPagamento(double total, double pago);
+}
+
+// Para adicionar nova forma de pagamento:
+// 1. Criar nova classe implementando IFormaPagamento
+// 2. NENHUM código existente precisa ser modificado!</span></pre>
+            </div>
+
+            <div class="code-block">
+                <pre><span class="code-green">// ✅ L - Liskov Substitution (Substituição)</span>
+<span class="code-white">public void finalizarVenda(</span><span class="code-yellow">IFormaPagamento</span><span class="code-white"> pagamento) {
+    // Funciona com Dinheiro, Cartão, PIX, QUALQUER UM!
+    pagamento.processarPagamento(total, valorPago);
+}</span></pre>
+            </div>
+
+            <div class="code-block">
+                <pre><span class="code-green">// ✅ I - Interface Segregation (Segregação)</span>
+<span class="code-white">public interface </span><span class="code-yellow">IProdutoDados</span><span class="white"> {    // Só métodos de PRODUTO
+    Optional&lt;Produto&gt; buscarPorCodigo(String codigo);
+    boolean atualizarEstoque(int id, int qtd);
+}
+
+public interface </span><span class="code-yellow">IVendaDados</span><span class="white"> {       // Só métodos de VENDA
+    int salvarVenda(Venda venda);
+    void salvarItens(int vendaId, List&lt;VendaItem&gt; itens);
+}</span></pre>
+            </div>
+
+            <div class="code-block">
+                <pre><span class="code-green">// ✅ D - Dependency Inversion (Inversão de Dependência)</span>
+<span class="code-white">public class </span><span class="code-yellow">ProdutoServico</span><span class="code-white"> {
+    private final </span><span class="code-yellow">IProdutoDados</span><span class="code-white"> dados;  // ← INTERFACE!
+    
+    public ProdutoServico(</span><span class="code-yellow">IProdutoDados</span><span class="code-white"> dados) {
+        this.dados = dados;  // Injeção de dependência
+    }
+}</span></pre>
+            </div>
+        </div>
+
+        <!-- Padrões de Projeto -->
+        <div class="card">
+            <h2>🔄 Padrões de Projeto Utilizados</h2>
+            <div class="folder-grid">
+                <div class="folder-card">
+                    <h3>🎯 Strategy Pattern</h3>
+                    <p><strong>Onde:</strong> Busca de produtos</p>
+                    <p><code>BuscaPorCodigo</code>, <code>BuscaPorNome</code> implementam <code>IBuscaStrategy</code></p>
+                    <p><span class="badge badge-pattern">Strategy</span></p>
+                </div>
+                <div class="folder-card">
+                    <h3>🏭 Factory Pattern</h3>
+                    <p><strong>Onde:</strong> Criação de notas fiscais</p>
+                    <p><code>NotaFiscalBuilder.getNota(tipo)</code></p>
+                    <p><span class="badge badge-pattern">Factory</span></p>
+                </div>
+                <div class="folder-card">
+                    <h3>🔨 Builder Pattern</h3>
+                    <p><strong>Onde:</strong> Criação de pagamentos</p>
+                    <p><code>PagamentoBuilder.getForma(nome)</code></p>
+                    <p><span class="badge badge-pattern">Builder</span></p>
+                </div>
+                <div class="folder-card">
+                    <h3>💉 Dependency Injection</h3>
+                    <p><strong>Onde:</strong> Conexão das camadas</p>
+                    <p>Injeção manual no <code>Main.java</code></p>
+                    <p><span class="badge badge-pattern">DI</span></p>
+                </div>
+                <div class="folder-card">
+                    <h3>📦 Repository Pattern</h3>
+                    <p><strong>Onde:</strong> Acesso a dados</p>
+                    <p><code>ProdutoDados</code>, <code>VendaDados</code></p>
+                    <p><span class="badge badge-pattern">Repository</span></p>
+                </div>
+                <div class="folder-card">
+                    <h3>🔌 Adapter Pattern</h3>
+                    <p><strong>Onde:</strong> Conexão com MySQL</p>
+                    <p><code>ConexaoMySQL</code> implementa <code>Conexao</code></p>
+                    <p><span class="badge badge-pattern">Adapter</span></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Arquitetura em Camadas -->
+        <div class="card">
+            <h2>🏛️ Arquitetura em Camadas</h2>
+            <div class="layers">
+                <div class="layer layer-presentation">
+                    <div class="layer-title">🎨 CAMADA DE APRESENTAÇÃO (tela/TelaPDV)</div>
+                    <div>Interface gráfica (JFrame, JTable, JButton) | Eventos do usuário | NÃO contém regras de negócio</div>
+                </div>
+                <div class="layer layer-service">
+                    <div class="layer-title">⚙️ CAMADA DE SERVIÇOS (servico/ProdutoServico)</div>
+                    <div>Regras de negócio | Orquestração entre repositórios | Validações</div>
+                </div>
+                <div class="layer layer-repository">
+                    <div class="layer-title">🗄️ CAMADA DE REPOSITÓRIOS (dados/ProdutoDados)</div>
+                    <div>Acesso a dados (SQL) | CRUD no banco | NÃO contém regras de negócio</div>
+                </div>
+                <div class="layer layer-connection">
+                    <div class="layer-title">🔌 CAMADA DE CONEXÃO (banco/ConexaoMySQL)</div>
+                    <div>Conexão com MySQL | Gerenciamento de transações</div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Fluxo de uma Venda -->
+        <div class="card">
+            <h2>🔄 Fluxo de uma Venda (Com as Camadas)</h2>
+            <div class="flow">
+                <div class="flow-item">👤 Usuário clica "Buscar"</div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-item">🎨 TelaPDV.realizarBusca()</div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-item">⚙️ ProdutoServico.buscarPorNome()</div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-item">🗄️ ProdutoDados.buscarPorNome()</div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-item">🔌 ConexaoMySQL.conectar()</div>
+            </div>
+            <div class="flow">
+                <div class="flow-item">👤 Usuário clica "Finalizar"</div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-item">🎨 TelaPDV.abrirDialogPagamento()</div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-item">✅ DialogPagamento.confirmarPagamento()</div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-item">⚙️ VendaServico.finalizar()</div>
+                <span class="flow-arrow">→</span>
+                <div class="flow-item">🏭 NotaFiscalBuilder.getNota()</div>
+            </div>
+        </div>
+
+        <!-- Tabela de Benefícios -->
+        <div class="card">
+            <h2>📊 Benefícios da Arquitetura</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Benefício</th>
+                        <th>Como é alcançado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>🧩 Manutenibilidade</td><td>Código organizado por responsabilidades</td></tr>
+                    <tr><td>🧪 Testabilidade</td><td>Cada camada pode ser testada isoladamente</td></tr>
+                    <tr><td>♻️ Reusabilidade</td><td>Serviços podem ser reutilizados por diferentes UIs</td></tr>
+                    <tr><td>🔄 Flexibilidade</td><td>Trocar MySQL por PostgreSQL = mudar 1 classe</td></tr>
+                    <tr><td>📈 Escalabilidade</td><td>Adicionar nova forma de pagamento = criar 1 classe</td></tr>
+                    <tr><td>🔗 Baixo Acoplamento</td><td>Classes dependem de interfaces, não de implementações</td></tr>
+                    <tr><td>🎯 Alta Coesão</td><td>Cada classe tem uma responsabilidade clara</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Resumo Técnico -->
+        <div class="card">
+            <h2>📋 Resumo Técnico</h2>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Pasta</th>
+                        <th>Padrão</th>
+                        <th>Responsabilidade</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr><td>banco/</td><td>Adapter</td><td>Adapta o MySQL para o sistema</td></tr>
+                    <tr><td>contrato/</td><td>Interface</td><td>Define contratos entre camadas</td></tr>
+                    <tr><td>dados/</td><td>Repository</td><td>Acesso a dados (DAO)</td></tr>
+                    <tr><td>modelo/</td><td>Entity</td><td>Representação dos dados</td></tr>
+                    <tr><td>servico/</td><td>Service</td><td>Regras de negócio</td></tr>
+                    <tr><td>tela/</td><td>View</td><td>Interface com usuário</td></tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Conclusão -->
+        <div class="card">
+            <h2>✅ Conclusão</h2>
+            <p>Este projeto é um excelente exemplo de <strong>arquitetura limpa</strong> com:</p>
+            <ul style="margin-left: 30px; margin-top: 15px;">
+                <li>✅ Separação clara de responsabilidades (camadas)</li>
+                <li>✅ Baixo acoplamento (depende de interfaces)</li>
+                <li>✅ Alta coesão (cada classe faz uma coisa)</li>
+                <li>✅ SOLID aplicado (todos os 5 princípios)</li>
+                <li>✅ Padrões de projeto (Strategy, Factory, DI, Repository)</li>
+                <li>✅ Preparado para crescer (Open/Closed)</li>
+            </ul>
+            <p style="margin-top: 20px; color: #00ff88;">Um projeto profissional, bem estruturado e de fácil manutenção! 🎯</p>
+        </div>
+
+        <!-- Footer -->
+        <div class="footer">
+            <p>PDV - Sistema de Vendas | Arquitetura em Camadas | SOLID | Padrões de Projeto</p>
+        </div>
+    </div>
+</body>
+</html>

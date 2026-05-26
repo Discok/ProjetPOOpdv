@@ -54,7 +54,7 @@ public class TelaPDV extends JFrame {
     }
     
     private void criarTela() {
-        setTitle("PDV - Sistema de Vendas");
+        setTitle("PDView - Ponto de Venda Rapida");
         setSize(1100, 700);
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setLocationRelativeTo(null);
