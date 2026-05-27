@@ -12,5 +12,5 @@ https://dev.mysql.com/downloads/installer/  -- necessario pro banco de dados
 
 https://download.oracle.com/java/26/latest/jdk-26_windows-x64_bin.exe (sha256) -- necessario para compilar executar
 
-
+https://ajuda.programanex.com.br/tutorial/instalar-impressora-epson-tm-t20
 

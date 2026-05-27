@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 
 public class ConexaoMySQL implements Conexao {
-    private static final String HOST = "localhost";
+    private static final String HOST = "127.0.0.1";
     private static final String PORTA = "3306";
     private static final String BANCO = "pdviewbanco";  // ← Nome do seu banco
     private static final String USUARIO = "root";
