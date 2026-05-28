@@ -8,7 +8,7 @@ public class NotaFiscalBuilder {
     
     static {
         notas.put("TXT", new NotaFiscalTXT());
-        notas.put("Impressora Térmica", new NotaFiscalTermica());  // ← Substituído
+        notas.put("Impressora Térmica", new NotaFiscalTermica()); 
     }
     
     public static List<String> getTipos() {
